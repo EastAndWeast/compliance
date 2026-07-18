@@ -22,14 +22,53 @@ document.addEventListener('DOMContentLoaded', function () {
             e.preventDefault();
             var targetId = this.getAttribute('href');
             var targetElement = document.querySelector(targetId);
-            
+
             if (targetElement) {
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
             }
+
+            // Close mobile menu after clicking a link
+            closeMobileMenu();
         });
+    });
+
+    // Mobile menu toggle
+    var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    var mainNav = document.getElementById('mainNav');
+
+    if (mobileMenuBtn && mainNav) {
+        mobileMenuBtn.addEventListener('click', function () {
+            var isOpen = mainNav.classList.contains('open');
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        });
+    }
+
+    function openMobileMenu() {
+        mainNav.classList.add('open');
+        mobileMenuBtn.classList.add('active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        mainNav.classList.remove('open');
+        mobileMenuBtn.classList.remove('active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
+    // Close mobile menu on escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mainNav && mainNav.classList.contains('open')) {
+            closeMobileMenu();
+        }
     });
 
 });
